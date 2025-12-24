@@ -60,12 +60,10 @@ export default function Home() {
 			<div className="mt-20 space-y-7 ">
 				<h3>Teams</h3>
 
-				<ul className="events" style={{ listStyleType: "none" }} className='grid
-    grid-cols-1
-    sm:grid-cols-2
-    lg:grid-cols-3
-    gap-x-35
-    gap-y-10'>
+				<ul
+					className="events grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-35 gap-y-10"
+					style={{ listStyleType: "none" }}
+				>
 					{events.map((event) => (
 						<li key={event.title} className="">
 							<EventCard {...event} />
