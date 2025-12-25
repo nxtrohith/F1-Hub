@@ -43,7 +43,22 @@ Call the migration during application startup in your layout or initialization c
 import { runMigrations } from '@/database';
 
 // In your app initialization (e.g., app/layout.tsx or a startup route handler)
-const migrations = runMigrations();
+try {
+  await runMigrations();
+} catch (error) {
+  console.error('Migration failed:', error);
+  // Handle error appropriately for your app
+}
+
+// Or in an async initializer:
+async function initializeApp() {
+  try {
+    await runMigrations();
+  } catch (error) {
+    console.error('Migration failed:', error);
+    throw error; // Re-throw or handle as needed
+  }
+}
 ```
 
 ### Option B: Manual for existing data

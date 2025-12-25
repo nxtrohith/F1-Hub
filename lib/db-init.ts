@@ -28,7 +28,7 @@ export async function initializeDatabase(): Promise<void> {
   } catch (error) {
     console.error('✗ Database initialization failed:', error);
     // In production, you may want to throw to prevent app startup
-    // throw error;
+    throw error;
   }
 }
 
