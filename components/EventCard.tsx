@@ -51,7 +51,7 @@ const EventCard = ({ title, image, slug }: Props) => {
           {title}
         </p>
         <p className="text-sm text-neutral-400 mt-1">
-          View event details →
+          View Team details →
         </p>
       </div>
     </Link>
