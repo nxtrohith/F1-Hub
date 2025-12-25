@@ -1,16 +1,17 @@
 import Image from "next/image"
 import Link from "next/link"
 
-type Props = {
+interface Props {
   title: string
   image: string
   href?: string
+  slug: string
 }
 
-const EventCard = ({ title, image, href = "/events" }: Props) => {
+const EventCard = ({ title, image, slug }: Props) => {
   return (
     <Link
-      href={href}
+      href={`/teams/${slug}`}
       className="
         group
         block
