@@ -1,16 +1,28 @@
+"use client";
+
+import posthog from 'posthog-js'
 import Image from "next/image"
 import Link from "next/link"
 
-type Props = {
+interface Props {
   title: string
   image: string
   href?: string
+  slug: string
 }
 
-const EventCard = ({ title, image, href = "/events" }: Props) => {
+const EventCard = ({ title, image, slug }: Props) => {
+  const handleCardClick = () => {
+    posthog.capture('team-card-clicked', {
+      team_slug: slug,
+      team_title: title,
+    })
+  }
+
   return (
     <Link
-      href={href}
+      href={`/teams/${slug}`}
+      onClick={handleCardClick}
       className="
         group
         block
@@ -50,7 +62,7 @@ const EventCard = ({ title, image, href = "/events" }: Props) => {
           {title}
         </p>
         <p className="text-sm text-neutral-400 mt-1">
-          View event details →
+          View Team details →
         </p>
       </div>
     </Link>
