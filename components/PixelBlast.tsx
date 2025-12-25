@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { EffectComposer, EffectPass, RenderPass, Effect } from 'postprocessing';
+import posthog from 'posthog-js';
 
 type PixelBlastVariant = 'square' | 'circle' | 'triangle' | 'diamond';
 
@@ -558,6 +559,13 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       };
       const onPointerDown = (e: PointerEvent) => {
         const { fx, fy } = mapToPixels(e);
+        posthog.capture('pixel-blast-interacted', {
+          variant: variant,
+          liquid_enabled: liquid,
+          ripples_enabled: enableRipples,
+          position_x: fx,
+          position_y: fy
+        });
         const ix = threeRef.current?.clickIx ?? 0;
         uniforms.uClickPos.value[ix].set(fx, fy);
         uniforms.uClickTimes.value[ix] = uniforms.uTime.value;
