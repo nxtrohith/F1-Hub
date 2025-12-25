@@ -42,6 +42,7 @@ const slugify = (value: string): string => {
 
 /**
  * Normalize a date string to ISO (YYYY-MM-DD) and validate it.
+ * Accepts YYYY-MM-DD or ISO-with-timezone; always returns UTC date.
  */
 const normalizeDate = (value: string): string => {
   const trimmed = value.trim();
@@ -49,13 +50,48 @@ const normalizeDate = (value: string): string => {
     throw new Error('Event date is required.');
   }
 
-  const date = new Date(trimmed);
-  if (Number.isNaN(date.getTime())) {
-    throw new Error(`Invalid event date: ${value}`);
+  // Check for strict YYYY-MM-DD format
+  const strictMatch = trimmed.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (strictMatch) {
+    const year = Number.parseInt(strictMatch[1], 10);
+    const month = Number.parseInt(strictMatch[2], 10);
+    const day = Number.parseInt(strictMatch[3], 10);
+
+    // Validate ranges
+    if (month < 1 || month > 12 || day < 1 || day > 31) {
+      throw new Error(`Invalid event date: ${value}`);
+    }
+
+    // Construct UTC date and validate it's a real date
+    const utcTimestamp = Date.UTC(year, month - 1, day);
+    const date = new Date(utcTimestamp);
+    
+    if (Number.isNaN(date.getTime())) {
+      throw new Error(`Invalid event date: ${value}`);
+    }
+
+    // Verify the date components match (catches invalid dates like 2025-02-31)
+    if (date.getUTCFullYear() !== year || 
+        date.getUTCMonth() !== month - 1 || 
+        date.getUTCDate() !== day) {
+      throw new Error(`Invalid event date: ${value}`);
+    }
+
+    return date.toISOString().slice(0, 10);
   }
 
-  // Only keep the date portion, drop time and timezone.
-  return date.toISOString().slice(0, 10);
+  // Try parsing as ISO-with-timezone (e.g., 2025-12-25T00:00:00Z)
+  const isoMatch = trimmed.match(/^\d{4}-\d{2}-\d{2}T/);
+  if (isoMatch) {
+    const date = new Date(trimmed);
+    if (Number.isNaN(date.getTime())) {
+      throw new Error(`Invalid event date: ${value}`);
+    }
+    return date.toISOString().slice(0, 10);
+  }
+
+  // If format doesn't match expected patterns, reject it
+  throw new Error(`Invalid event date format: ${value}. Expected YYYY-MM-DD or ISO format.`);
 };
 
 /**
@@ -103,7 +139,7 @@ const eventSchema = new Schema<EventDoc, EventModel>(
     image: { type: String, required: true, trim: true },
     venue: { type: String, required: true, trim: true },
     location: { type: String, required: true, trim: true },
-    date: { type: String, required: true },
+    date: { type: String, required: true, index: true },
     time: { type: String, required: true },
     mode: { type: String, required: true, trim: true },
     organizer: { type: String, required: true, trim: true },
@@ -115,8 +151,6 @@ const eventSchema = new Schema<EventDoc, EventModel>(
   },
 );
 
-// Additional safeguard unique index for slug (alongside the schema definition).
-eventSchema.index({ slug: 1 }, { unique: true });
 
 /**
  * Pre-save hook to:
@@ -124,34 +158,28 @@ eventSchema.index({ slug: 1 }, { unique: true });
  * - Generate a URL-friendly slug from the title (only when the title changes)
  * - Normalize date and time into consistent formats
  */
-eventSchema.pre<EventDoc>('save', function preSave(next) {
-  try {
-    // Validate required string fields manually to avoid empty strings.
-    assertNonEmpty('title', this.title);
-    assertNonEmpty('description', this.description);
-    assertNonEmpty('image', this.image);
-    assertNonEmpty('venue', this.venue);
-    assertNonEmpty('location', this.location);
-    assertNonEmpty('mode', this.mode);
-    assertNonEmpty('organizer', this.organizer);
+eventSchema.pre<EventDoc>('save', function preSave() {
+  // Validate required string fields manually to avoid empty strings.
+  assertNonEmpty('title', this.title);
+  assertNonEmpty('description', this.description);
+  assertNonEmpty('image', this.image);
+  assertNonEmpty('venue', this.venue);
+  assertNonEmpty('location', this.location);
+  assertNonEmpty('mode', this.mode);
+  assertNonEmpty('organizer', this.organizer);
 
-    if (!Array.isArray(this.tags) || this.tags.length === 0) {
-      throw new Error('Field "tags" must be a non-empty array.');
-    }
-
-    // Only regenerate the slug when the title has changed or slug is missing.
-    if (this.isModified('title') || !this.slug) {
-      this.slug = slugify(this.title);
-    }
-
-    // Normalize date and time to consistent formats.
-    this.date = normalizeDate(this.date);
-    this.time = normalizeTime(this.time);
-
-    next();
-  } catch (err) {
-    next(err as Error);
+  if (!Array.isArray(this.tags) || this.tags.length === 0) {
+    throw new Error('Field "tags" must be a non-empty array.');
   }
+
+  // Only regenerate the slug when the title has changed or slug is missing.
+  if (this.isModified('title') || !this.slug) {
+    this.slug = slugify(this.title);
+  }
+
+  // Normalize date and time to consistent formats.
+  this.date = normalizeDate(this.date);
+  this.time = normalizeTime(this.time);
 });
 
 export const Event: EventModel = (models.Event as EventModel) || model<EventDoc, EventModel>('Event', eventSchema);
