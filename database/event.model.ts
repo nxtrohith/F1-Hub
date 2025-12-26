@@ -131,6 +131,22 @@ const assertNonEmpty = (fieldName: keyof EventAttrs, value: string): void => {
   }
 };
 
+/**
+ * Allowed values for the event mode.
+ */
+const VALID_MODES = ['Offline', 'Online', 'Hybrid'] as const;
+
+/**
+ * Validate that mode is one of the allowed values.
+ */
+const validateMode = (value: string): void => {
+  if (!VALID_MODES.includes(value as typeof VALID_MODES[number])) {
+    throw new Error(
+      `Invalid mode: "${value}". Must be one of: ${VALID_MODES.join(', ')}`
+    );
+  }
+};
+
 const eventSchema = new Schema<EventDoc, EventModel>(
   {
     title: { type: String, required: true, trim: true },
@@ -141,7 +157,12 @@ const eventSchema = new Schema<EventDoc, EventModel>(
     location: { type: String, required: true, trim: true },
     date: { type: String, required: true, index: true },
     time: { type: String, required: true },
-    mode: { type: String, required: true, trim: true },
+    mode: { 
+      type: String, 
+      required: true, 
+      trim: true,
+      enum: VALID_MODES,
+    },
     organizer: { type: String, required: true, trim: true },
     tags: { type: [String], required: true },
   },
@@ -167,6 +188,9 @@ eventSchema.pre<EventDoc>('save', function preSave() {
   assertNonEmpty('location', this.location);
   assertNonEmpty('mode', this.mode);
   assertNonEmpty('organizer', this.organizer);
+
+  // Validate mode value
+  validateMode(this.mode);
 
   if (!Array.isArray(this.tags) || this.tags.length === 0) {
     throw new Error('Field "tags" must be a non-empty array.');
