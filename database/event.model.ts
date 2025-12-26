@@ -196,6 +196,15 @@ eventSchema.pre<EventDoc>('save', function preSave() {
     throw new Error('Field "tags" must be a non-empty array.');
   }
 
+  // Validate individual tags are non-empty
+  this.tags.forEach((tag, index) => {
+    if (!tag || !tag.trim()) {
+      throw new Error(`Tag at index ${index} is empty or whitespace-only.`);
+    }
+  });
+
+  // Optional: Trim and deduplicate tags
+  this.tags = [...new Set(this.tags.map(tag => tag.trim()))];
   // Only regenerate the slug when the title has changed or slug is missing.
   if (this.isModified('title') || !this.slug) {
     this.slug = slugify(this.title);

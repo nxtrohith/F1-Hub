@@ -64,7 +64,12 @@ export const connectToDatabase = async (): Promise<Connection> => {
       maxPoolSize: 10, // Reasonable default; tune based on your deployment.
     };
 
-    cached.promise = mongoose.connect(uri, options);
+    cached.promise = mongoose.connect(uri, options).catch((error) => {
+      // Clear the cached promise on failure so subsequent calls can retry
+      cached.promise = null;
+      cached.conn = undefined as unknown as Connection;
+      throw error;
+    });
   }
 
   const mongooseInstance = await cached.promise;

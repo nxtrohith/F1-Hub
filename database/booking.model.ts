@@ -79,27 +79,6 @@ bookingSchema.pre<BookingDoc>('save', async function preSave() {
 });
 
 /**
- * Post-initialization: handle index creation and deduplication if needed.
- * This ensures the unique compound index is applied and removes duplicates if present.
- */
-bookingSchema.post('init', async function () {
-  // Re-create the index on model initialization to ensure it exists
-  if (this.collection) {
-    try {
-      await this.collection.createIndex(
-        { eventId: 1, email: 1 },
-        { unique: true }
-      );
-    } catch (error) {
-      // Index may already exist or have duplicates; handled by deduplication
-      console.warn(
-        'Compound unique index creation attempted (may already exist or have conflicts)'
-      );
-    }
-  }
-});
-
-/**
  * Async function to deduplicate and rebuild indexes.
  * Call this during application startup if dealing with legacy data.
  */
@@ -127,9 +106,8 @@ export async function deduplicateAndRebuildIndexes(): Promise<void> {
       if (idsToDelete.length > 0) {
         await BookingModel.deleteMany({ _id: { $in: idsToDelete } });
         console.log(
-          `Removed ${idsToDelete.length} duplicate booking(s) for eventId: ${dup._id.eventId}, email: ${dup._id.email}`
-        );
-      }
+          `Removed ${idsToDelete.length} duplicate booking(s) for eventId: ${dup._id.eventId}`
+        );      }
     }
 
     // Drop existing indexes (except the default _id index)
