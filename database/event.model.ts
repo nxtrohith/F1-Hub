@@ -15,6 +15,7 @@ export interface EventAttrs {
   mode: string; // e.g., "online", "offline", "hybrid"
   organizer: string;
   tags: string[];
+  capacity: number;
 }
 
 /**
@@ -165,6 +166,7 @@ const eventSchema = new Schema<EventDoc, EventModel>(
     },
     organizer: { type: String, required: true, trim: true },
     tags: { type: [String], required: true },
+    capacity: { type: Number, required: true, min: 0 },
   },
   {
     timestamps: true,
@@ -188,6 +190,10 @@ eventSchema.pre<EventDoc>('save', function preSave() {
   assertNonEmpty('location', this.location);
   assertNonEmpty('mode', this.mode);
   assertNonEmpty('organizer', this.organizer);
+  // Capacity must be a non-negative number
+  if (typeof this.capacity !== 'number' || Number.isNaN(this.capacity) || this.capacity < 0) {
+    throw new Error('Field "capacity" must be a non-negative number.');
+  }
 
   // Validate mode value
   validateMode(this.mode);

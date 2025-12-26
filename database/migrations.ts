@@ -4,6 +4,7 @@
  */
 
 import { deduplicateAndRebuildIndexes as deduplicateBookings } from './booking.model';
+import { Event } from './event.model';
 
 /**
  * Runs all necessary migrations and index rebuilds.
@@ -17,6 +18,14 @@ export async function runMigrations(): Promise<void> {
     console.log('Running booking deduplication and index rebuild...');
     await deduplicateBookings();
     console.log('Booking migration completed successfully.');
+
+    // Ensure all events have a capacity field
+    console.log('Ensuring capacity field exists on all events...');
+    const result = await Event.updateMany(
+      { $or: [{ capacity: { $exists: false } }, { capacity: { $lt: 0 } }] },
+      { $set: { capacity: 0 } }
+    );
+    console.log(`Updated capacity on ${result.modifiedCount ?? 0} event(s).`);
   } catch (error) {
     console.error('Migration failed:', error);
     throw error;

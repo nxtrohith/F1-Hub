@@ -67,7 +67,7 @@ export const connectToDatabase = async (): Promise<Connection> => {
     cached.promise = mongoose.connect(uri, options).catch((error) => {
       // Clear the cached promise on failure so subsequent calls can retry
       cached.promise = null;
-      cached.conn = undefined as unknown as Connection;
+      cached.conn = null;
       throw error;
     });
   }
