@@ -3,10 +3,11 @@ import EventCard from "@/components/EventCard";
 import Image from "next/image";
 import { teams } from "@/lib/constants";
 
-// The home page only needs static team data for now.
-// Avoid calling the internal API via HTTP during build, which was causing
-// a prerendering error when `NEXT_PUBLIC_BASE_URL` pointed at localhost.
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
+	const response = await fetch(`${baseUrl}/api/events`)
+	const {events} = await response.json();
+
 	return (
 		<section>
 			<h1 className="text-center">The F1 2026 Season Hub</h1>
