@@ -3,8 +3,11 @@ import EventCard from "@/components/EventCard";
 import Image from "next/image";
 import { teams } from "@/lib/constants";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const Page = async () => {
+	const response = await fetch(`${baseUrl}/api/events`)
+	const {events} = await response.json();
 
-export default function Home() {
 	return (
 		<section>
 			<h1 className="text-center">The F1 2026 Season Hub</h1>
@@ -29,3 +32,5 @@ export default function Home() {
 		</section>
 	);
 }
+
+export default Page;
