@@ -5,9 +5,6 @@ import { teams } from "@/lib/constants";
 import { getBaseUrl } from "@/lib/utils";
 
 const Page = async () => {
-	const baseUrl = getBaseUrl();
-	const response = await fetch(new URL('/api/events', baseUrl).toString())
-	const {events} = await response.json();
 
 	return (
 		<section>
