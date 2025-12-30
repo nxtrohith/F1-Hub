@@ -112,8 +112,8 @@ const EventDetailsContent = async ({ slug }: { slug: string }) => {
   )
 }
 
-const Page = ({ params }: { params: { slug: string } }) => {
-    const { slug } = params;
+const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+    const { slug } = await params;
     return (
         <Suspense fallback={<div className="text-center">Loading event...</div>}>
             <EventDetailsContent slug={slug} />
