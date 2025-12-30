@@ -44,13 +44,14 @@ export default function RootLayout({
     rippleSpeed={0.4}
     rippleThickness={0.02}
     rippleIntensityScale={1.5}
-    liquid={true}
+    liquid={false}
     liquidStrength={0.12}
     liquidRadius={1.2}
     liquidWobbleSpeed={5}
     speed={0.6}
     edgeFade={0.25}
     transparent
+    className=""
   />
   </div>
 
