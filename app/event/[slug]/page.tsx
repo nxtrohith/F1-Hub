@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { div } from "three/tsl";
 import BookEvent from "@/components/BookEvent";
+import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
+import type { IEvent } from "@/types"; // Adjust the path based on where IEvent is defined
+import EventsCard from "@/components/EventsCard";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 // Recommended racing underline h2 style; Fallback if `after:` variants aren't available:
@@ -30,6 +33,9 @@ const EventDetailsPage = async ({params}: {params : Promise<{ slug: string}>}) =
 
     if(!event) return notFound();
     const bookings = 10;
+
+    const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug) ?? [];
+    console.log(similarEvents);
   return (
     <section id = 'event'>
         <div className="header">
@@ -78,7 +84,17 @@ const EventDetailsPage = async ({params}: {params : Promise<{ slug: string}>}) =
             </aside>
         </div>
 
+        <div className="flex w-full flex-col gap-4 pt-15">
+
+            <h2 className={h2style}>Similar Events</h2>
+            <div className="events">
+                {similarEvents.length > 0 && similarEvents.map((simEvent : IEvent) => (
+                    <EventsCard key = {simEvent.id} {...simEvent} />
+                ))}
+            </div>
+        </div>
     </section>
+    
   )
 }
 

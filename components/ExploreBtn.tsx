@@ -10,7 +10,7 @@ const ExploreBtn = () => {
         posthog.capture('explore_events_clicked', { target_anchor: '#events' })
         console.log('Click')
     }}>
-        <a href="#events">
+        <a href="/events">
             Explore Events
             {/* <Image
             src="/icons/arrow-down.svg"

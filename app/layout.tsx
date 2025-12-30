@@ -3,6 +3,7 @@ import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
 import "./globals.css";
 import PixelBlast from "@/components/PixelBlast";
 import NavBar from "@/components/NavBar";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const schibstedGrotesk = Schibsted_Grotesk({
   variable: "--font-schibsted-grotesk",
@@ -25,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
         className={`${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
       >
@@ -43,7 +44,7 @@ export default function RootLayout({
     rippleSpeed={0.4}
     rippleThickness={0.02}
     rippleIntensityScale={1.5}
-    liquid={false}
+    liquid={true}
     liquidStrength={0.12}
     liquidRadius={1.2}
     liquidWobbleSpeed={5}
@@ -56,6 +57,7 @@ export default function RootLayout({
         <main>
           {children}
         </main>
+        <ScrollToTop />
       </body>
     </html>
   );

@@ -26,7 +26,9 @@ const EventCard = ({ title, image, slug }: Props) => {
       className="
         group
         block
-        w-[400px]
+        w-full
+        max-w-[420px]
+        mx-auto
         rounded-xl
         overflow-hidden
         bg-neutral-900
@@ -38,7 +40,7 @@ const EventCard = ({ title, image, slug }: Props) => {
       "
     >
       {/* Image container */}
-      <div className="relative w-full h-[250px] overflow-hidden">
+      <div className="relative w-full aspect-[4/2] overflow-hidden">
         <Image
           src={image}
           alt={title}
