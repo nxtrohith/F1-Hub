@@ -1,10 +1,13 @@
 import {GET} from '../api/events/route'
 import EventsCard from '@/components/EventsCard';
 import { EventAttrs } from '@/database/event.model';
+import { cacheLife } from 'next/cache';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const page = async () => {
+    'use cache';
+    cacheLife('hours')
     const response = await fetch(`${BASE_URL}/api/events`);
     const {events} = await response.json();
   return (
