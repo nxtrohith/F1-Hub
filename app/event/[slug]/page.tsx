@@ -1,12 +1,13 @@
-import { Suspense } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { unstable_noStore as noStore } from "next/cache";
 import BookEvent from "@/components/BookEvent";
 import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
 import type { IEvent } from "@/types";
 import EventsCard from "@/components/EventsCard";
 import { getBaseUrl } from "@/lib/utils";
+
+// Force dynamic rendering for this route
+export const dynamic = "force-dynamic";
 
 // Recommended racing underline h2 style; Fallback if `after:` variants aren't available:
 // Fallback: text-red-600 font-semibold mt-4 pb-1 border-b-2 border-red-600 tracking-wide uppercase
@@ -27,7 +28,6 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 )
 
 const EventDetailsContent = async ({ slug }: { slug: string }) => {
-    noStore();
     const baseUrl = getBaseUrl();
     const request = await fetch(new URL(`/api/events/${slug}`, baseUrl).toString(), { cache: "no-store" });
     
@@ -115,9 +115,7 @@ const EventDetailsContent = async ({ slug }: { slug: string }) => {
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
     const { slug } = await params;
     return (
-        <Suspense fallback={<div className="text-center">Loading event...</div>}>
-            <EventDetailsContent slug={slug} />
-        </Suspense>
+        <EventDetailsContent slug={slug} />
     );
 };
 
