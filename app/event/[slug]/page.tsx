@@ -30,9 +30,15 @@ const EventDetailsContent = async ({ slug }: { slug: string }) => {
     noStore();
     const baseUrl = getBaseUrl();
     const request = await fetch(new URL(`/api/events/${slug}`, baseUrl).toString(), { cache: "no-store" });
-    const { event: { description, image, date, time, location, mode, venue, title, organizer, capacity, tags }, event } = await request.json();
-
+    
+    if (!request.ok) return notFound();
+    
+    const data = await request.json();
+    const event = data?.event;
+    
     if (!event) return notFound();
+    
+    const { description, image, date, time, location, mode, title, capacity, tags } = event;
     const bookings = 10;
 
     const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug) ?? [];
