@@ -1,11 +1,11 @@
 import {GET} from '../api/events/route'
 import EventsCard from '@/components/EventsCard';
 import { EventAttrs } from '@/database/event.model';
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+import { getBaseUrl } from '@/lib/utils';
 
 const page = async () => {
-    const response = await fetch(`${BASE_URL}/api/events`);
+    const baseUrl = getBaseUrl();
+    const response = await fetch(new URL('/api/events', baseUrl).toString());
     const {events} = await response.json();
   return (
     <div>

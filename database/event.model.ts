@@ -31,16 +31,15 @@ export type EventModel = Model<EventDoc>;
 /**
  * Create a URL-friendly slug from a title.
  */
-const slugify = (value: string): string => {
-  return value
-    .toLowerCase()
-    .trim()
-    // Replace non-alphanumeric characters with a dash
-    .replace(/[^a-z0-9]+/g, '-')
-    // Remove leading/trailing dashes
-    .replace(/^-+|-+$/g, '');
-};
+import slugifyLib from 'slugify';
 
+const slugify = (value: string): string => {
+  return slugifyLib(value, {
+    lower: true,
+    strict: true,
+    trim: true,
+  });
+};
 /**
  * Normalize a date string to ISO (YYYY-MM-DD) and validate it.
  * Accepts YYYY-MM-DD or ISO-with-timezone; always returns UTC date.

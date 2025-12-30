@@ -6,8 +6,8 @@ import BookEvent from "@/components/BookEvent";
 import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
 import type { IEvent } from "@/types"; // Adjust the path based on where IEvent is defined
 import EventsCard from "@/components/EventsCard";
+import { getBaseUrl } from "@/lib/utils";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 // Recommended racing underline h2 style; Fallback if `after:` variants aren't available:
 // Fallback: text-red-600 font-semibold mt-4 pb-1 border-b-2 border-red-600 tracking-wide uppercase
 const h2style = "relative font-semibold tracking-wide uppercase text-white-900 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-24 after:bg-red-600";
@@ -28,7 +28,8 @@ const EventTags = ({tags}: {tags: string[]}) => (
 
 const EventDetailsPage = async ({params}: {params : Promise<{ slug: string}>}) => {
     const {slug} = await params;
-    const request = await fetch(`${BASE_URL}/api/events/${slug}`);
+    const baseUrl = getBaseUrl();
+    const request = await fetch(new URL(`/api/events/${slug}`, baseUrl).toString());
     const {event: { description, image, date, time, location, mode, venue, title, organizer, capacity, tags }, event} = await request.json();
 
     if(!event) return notFound();

@@ -2,10 +2,11 @@ import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
 import Image from "next/image";
 import { teams } from "@/lib/constants";
+import { getBaseUrl } from "@/lib/utils";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const Page = async () => {
-	const response = await fetch(`${baseUrl}/api/events`)
+	const baseUrl = getBaseUrl();
+	const response = await fetch(new URL('/api/events', baseUrl).toString())
 	const {events} = await response.json();
 
 	return (
