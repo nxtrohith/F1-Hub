@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <NavBar />
 
-  <div className="absolute inset-0 -z-10 min-h-screen">
+  <div className="fixed inset-0 -z-10 w-full h-full min-h-screen">
     <PixelBlast
     variant="circle"
     pixelSize={6}
