@@ -3,13 +3,16 @@ import EventsCard from '@/components/EventsCard';
 import { EventAttrs } from '@/database/event.model';
 import { cacheLife } from 'next/cache';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL =process.env.NEXT_PUBLIC_BASE_URL;
 
 const page = async () => {
     'use cache';
-    cacheLife('hours')
-    const response = await fetch(`${BASE_URL}/api/events`);
-    const {events} = await response.json();
+    cacheLife('hours');
+    const res = await fetch(`${BASE_URL}/api/events`).catch(() => null);
+    if (!res || !res.ok) return <div className="text-center">Failed to load events.</div>;
+
+    const { events = [] } = await res.json();
+    console.log(events);
   return (
     <div>
       <h1 className="text-center">Events</h1>
