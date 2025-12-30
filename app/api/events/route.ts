@@ -9,28 +9,32 @@ export async function POST(req: NextRequest){
 
         const formData = await req.formData();
 
-        let event;
+        let rawEvent: Record<string, FormDataEntryValue>;
 
         try{
-            event = Object.fromEntries(formData.entries());
-        }catch(e){
+            rawEvent = Object.fromEntries(formData.entries()) as Record<string, FormDataEntryValue>;
+        }catch{
             return NextResponse.json({message: 'Invalid JSON form data'}, {status: 400});
         }
 
         // Parse and validate capacity
         const capacityRaw = formData.get('capacity');
-        const capacity = typeof capacityRaw === 'string' ? Number(capacityRaw) : (capacityRaw as number | null);
+        const capacity = typeof capacityRaw === 'string' ? Number(capacityRaw) : null;
         if (capacity == null || !Number.isFinite(capacity) || capacity < 0) {
             return NextResponse.json({ message: 'Valid non-negative capacity is required' }, { status: 400 });
         }
-        (event as any).capacity = capacity;
+
+        const event = {
+            ...rawEvent,
+            capacity,
+        };
 
         const file = formData.get('image') as File;
 
-        if(!File) return NextResponse.json({message: 'Image file is required'}, {status: 400});
+        if(!file) return NextResponse.json({message: 'Image file is required'}, {status: 400});
 
 
-        let tags = JSON.parse(formData.get('tags') as string)
+        const tags = JSON.parse(formData.get('tags') as string);
 
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);

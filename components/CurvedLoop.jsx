@@ -27,6 +27,7 @@ const CurvedLoop = ({
   const lastXRef = useRef(0);
   const dirRef = useRef(direction);
   const velRef = useRef(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     dirRef.current = direction;
@@ -49,7 +50,6 @@ const CurvedLoop = ({
     if (textPathRef.current) {
       const initial = -spacing;
       textPathRef.current.setAttribute('startOffset', initial + 'px');
-      setOffset(initial);
     }
   }, [spacing]);
 
@@ -78,6 +78,7 @@ const CurvedLoop = ({
   const onPointerDown = e => {
     if (!interactive) return;
     dragRef.current = true;
+    setIsDragging(true);
     lastXRef.current = e.clientX;
     velRef.current = 0;
     e.target.setPointerCapture(e.pointerId);
@@ -103,10 +104,11 @@ const CurvedLoop = ({
   const endDrag = () => {
     if (!interactive) return;
     dragRef.current = false;
+    setIsDragging(false);
     dirRef.current = velRef.current > 0 ? 'right' : 'left';
   };
 
-  const cursorStyle = interactive ? (dragRef.current ? 'grabbing' : 'grab') : 'auto';
+  const cursorStyle = interactive ? (isDragging ? 'grabbing' : 'grab') : 'auto';
 
   return (
     <div

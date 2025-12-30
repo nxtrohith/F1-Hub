@@ -6,9 +6,9 @@ import { Event, EventDoc } from '@/database/event.model';
  * Route parameters for /api/events/[slug].
  */
 interface GetEventBySlugParams {
-  params: Promise<{
+  params: {
     slug?: string;
-  }>;
+  };
 }
 
 /**
@@ -41,7 +41,7 @@ export async function GET(
   { params }: GetEventBySlugParams,
 ): Promise<NextResponse<GetEventBySlugResponseBody>> {
   try {
-    const { slug: rawSlug } = await params;
+    const { slug: rawSlug } = params;
 
     // Validate presence and basic shape of the slug parameter.
     if (!rawSlug) {
