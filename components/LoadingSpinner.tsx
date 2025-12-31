@@ -7,7 +7,7 @@ interface LoadingSpinnerProps {
 
 export default function LoadingSpinner({ fullScreen = true }: LoadingSpinnerProps) {
     return (
-        <div className={`${fullScreen ? 'min-h-screen' : ''} flex flex-col items-center justify-center bg-[#4a4a4a]`}>
+        <div className={`${fullScreen ? 'min-h-screen' : ''} flex flex-col items-center justify-center`}>
             <Bars
                 height="80"
                 width="80"
