@@ -18,7 +18,9 @@ const EventDetails = async ({params} : {params: Promise<string>}) => {
         {/* Add your events listing or other content here */}
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-8">
                     {events && events.length > 0 && events.map((event: EventAttrs) => (
-                        <li key={event._id || event.id} className="list-none">                        </li>
+                        <li key={event.title} className="list-none">
+                            <EventsCard {...event} />
+                        </li>
                     ))}
         </ul>
     </div>
