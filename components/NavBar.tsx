@@ -27,8 +27,8 @@ const NavBar = () => {
         <div className="flex items-center gap-4">
           <ul className='hidden sm:flex items-center gap-6 text-sm'>
             <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Home', target_url: '/' })} >Home</Link>
-            <Link href="/events" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/events' })}>Events</Link>            <Link href="/register" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Register for Event', target_url: '/register' })}>Register Your Event</Link>
-          </ul>
+            <Link href="/events" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/events' })}>Events</Link>
+            <Link href="/register" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Register Your Event', target_url: '/register' })}>Register Your Event</Link>          </ul>
 
           <button
             type="button"
@@ -48,8 +48,7 @@ const NavBar = () => {
         <div className="sm:hidden px-5 mt-3">
           <ul className="flex flex-col gap-3 rounded-lg border border-neutral-800 bg-neutral-900 p-4 text-sm">
             <Link href="/" onClick={() => { posthog.capture('navbar_link_clicked', { link_text: 'Home', target_url: '/' }); closeMenu(); }}>Home</Link>
-<Link href="/events" onClick={() => { posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/events' }); closeMenu(); }}>Events</Link>            <Link href="/" onClick={() => { posthog.capture('navbar_link_clicked', { link_text: 'Register for Event', target_url: '/' }); closeMenu(); }}>Register Your Event</Link>
-          </ul>
+<Link href="/events" onClick={() => { posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/events' }); closeMenu(); }}>Events</Link>            <Link href="/register" onClick={() => { posthog.capture('navbar_link_clicked', { link_text: 'Register Your Event', target_url: '/register' }); closeMenu(); }}>Register Your Event</Link>          </ul>
         </div>
       )}
     </header>

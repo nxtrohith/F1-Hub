@@ -2,8 +2,7 @@ import EventsCard from '@/components/EventsCard';
 import { EventAttrs } from '@/database/event.model';
 import { cacheLife } from 'next/cache';
 
-const BASE_URL =process.env.NEXT_PUBLIC_BASE_URL;
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 const EventDetails = async ({params} : {params: Promise<string>}) => {
     'use cache';
     cacheLife('hours');
@@ -19,9 +18,7 @@ const EventDetails = async ({params} : {params: Promise<string>}) => {
         {/* Add your events listing or other content here */}
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-8">
                     {events && events.length > 0 && events.map((event: EventAttrs) => (
-                        <li key={event.title} className="list-none">
-                            <EventsCard {...event} />
-                        </li>
+                        <li key={event._id || event.id} className="list-none">                        </li>
                     ))}
         </ul>
     </div>

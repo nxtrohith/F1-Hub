@@ -18,7 +18,6 @@ const TeamDetailsContent = async ({ params }: { params: Promise<{ slug: string }
     if (!request.ok) return notFound();
     
     const data = await request.json();
-    console.log(data);
     const team = data?.team;
     
     if (!team) return notFound();

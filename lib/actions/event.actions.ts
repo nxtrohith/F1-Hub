@@ -16,6 +16,6 @@ export const getSimilarEventsBySlug = async (slug: string) => {
         }));
 
     }catch(e){
+        console.error('Error fetching similar events:', e);
         return [];
-    }
-}
+    }}

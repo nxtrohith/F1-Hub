@@ -100,13 +100,9 @@ export async function GET(
   } catch (error: unknown) {
     console.error('Failed to fetch teams:', error);
 
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unexpected error occurred.';
-
     return NextResponse.json(
       {
         message: 'Failed to fetch teams.',
-        error: errorMessage,
       },
       { status: 500 },
     );

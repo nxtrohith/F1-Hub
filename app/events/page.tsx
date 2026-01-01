@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import EventDetails from "@/components/EventDetails";
 import LoadingSpinner from "@/components/LoadingSpinner";
-const BASE_URL =process.env.NEXT_PUBLIC_BASE_URL;
 
 const page = async () => {
 

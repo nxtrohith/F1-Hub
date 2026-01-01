@@ -99,13 +99,9 @@ export async function GET(
     // Log server-side for observability without leaking internal details to the client.
     console.error('Failed to fetch event by slug:', error);
 
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unexpected error occurred.';
-
     return NextResponse.json(
       {
         message: 'Failed to fetch event.',
-        error: errorMessage,
       },
       { status: 500 },
     );

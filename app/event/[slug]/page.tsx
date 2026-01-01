@@ -43,7 +43,7 @@ const EventDetailsContent = async ({ params }: { params: Promise<{ slug: string 
     if (!event) return notFound();
     
     const { description, image, date, time, location, mode, title, capacity, tags } = event;
-    const bookings = 10;
+    const bookings = 100;
 
     const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug) ?? [];
     let parsedTags: string[] = [];
