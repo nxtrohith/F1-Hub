@@ -6,6 +6,8 @@ import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
 import type { IEvent } from "@/types";
 import EventsCard from "@/components/EventsCard";
 import { getBaseUrl } from "@/lib/utils";
+import { Suspense } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 // Recommended racing underline h2 style; Fallback if `after:` variants aren't available:
 // Fallback: text-red-600 font-semibold mt-4 pb-1 border-b-2 border-red-600 tracking-wide uppercase
@@ -25,10 +27,11 @@ const EventTags = ({ tags }: { tags: string[] }) => (
     </div>
 )
 
-const EventDetailsContent = async ({ slug }: { slug: string }) => {
+const EventDetailsContent = async ({ params }: { params: Promise<{ slug: string }> }) => {
     // Opt into dynamic rendering
     await connection();
     
+    const { slug } = await params;
     const baseUrl = getBaseUrl();
     const request = await fetch(new URL(`/api/events/${slug}`, baseUrl).toString(), { cache: "no-store" });
     
@@ -114,9 +117,10 @@ const EventDetailsContent = async ({ slug }: { slug: string }) => {
 }
 
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
-    const { slug } = await params;
     return (
-        <EventDetailsContent slug={slug} />
+        <Suspense fallback={<LoadingSpinner />}>
+            <EventDetailsContent params={params} />
+        </Suspense>
     );
 };
 

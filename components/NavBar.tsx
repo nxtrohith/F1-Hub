@@ -27,7 +27,7 @@ const NavBar = () => {
         <div className="flex items-center gap-4">
           <ul className='hidden sm:flex items-center gap-6 text-sm'>
             <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Home', target_url: '/' })} >Home</Link>
-            <Link href="/events" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/events' })}>Events</Link>            <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Register for Event', target_url: '/' })}>Register Your Event</Link>
+            <Link href="/events" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/events' })}>Events</Link>            <Link href="/register" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Register for Event', target_url: '/register' })}>Register Your Event</Link>
           </ul>
 
           <button
