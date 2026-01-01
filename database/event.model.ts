@@ -1,5 +1,5 @@
 import { Schema, model, models, Document, Model } from 'mongoose';
-
+import slugifyLib from 'slugify';
 /**
  * Event domain shape without Mongoose-specific fields.
  */
@@ -31,7 +31,7 @@ export type EventModel = Model<EventDoc>;
 /**
  * Create a URL-friendly slug from a title.
  */
-import slugifyLib from 'slugify';
+
 
 const slugify = (value: string): string => {
   return slugifyLib(value, {

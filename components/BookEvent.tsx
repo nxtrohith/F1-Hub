@@ -7,11 +7,22 @@ const BookEvent = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setTimeout(() => (
-            setSubmitted(true)
-        ), 1000)
+        // Replace with your actual API endpoint
+        fetch('/api/bookings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        })
+        .then(res => {
+            if (res.ok) {
+                setSubmitted(true);
+            } else {
+                // Handle error appropriately
+                console.error('Booking failed');
+            }
+        })
+        .catch(err => console.error('Booking error:', err));
     }
-
   return (
     <div id="book-event" className="mt-4">
       {submitted ? (

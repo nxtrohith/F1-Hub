@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
+import { Schibsted_Grotesk, Martian_Mono, Bungee_Inline } from "next/font/google";
 import "./globals.css";
 import PixelBlast from "@/components/PixelBlast";
 import NavBar from "@/components/NavBar";
@@ -12,6 +12,12 @@ const schibstedGrotesk = Schibsted_Grotesk({
 
 const martianMono = Martian_Mono({
   variable: "--font-martian-mono",
+  subsets: ["latin"],
+});
+
+const bungeeInline = Bungee_Inline({
+  weight: "400",
+  variable: "--font-bungee-inline",
   subsets: ["latin"],
 });
 
@@ -28,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
+        className={`${schibstedGrotesk.variable} ${martianMono.variable} ${bungeeInline.variable} min-h-screen antialiased`}
       >
         <NavBar />
 

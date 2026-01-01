@@ -24,8 +24,8 @@ export async function POST(req: NextRequest){
             return NextResponse.json({ message: 'Valid non-negative capacity is required' }, { status: 400 });
         }
 
-        const event = {
-            ...rawEvent,
+        const event: Record<string, any> = {
+            ...(rawEvent as Record<string, any>),
             capacity,
         };
 

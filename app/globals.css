@@ -166,7 +166,7 @@
     }
 
     ul {
-      @apply items-center gap-6;
+      @apply flex flex-row items-center gap-6;
     }
   }
 
@@ -307,4 +307,11 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Bungee Inline Font */
+.bungee-inline-regular {
+  font-family: var(--font-bungee-inline), sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }

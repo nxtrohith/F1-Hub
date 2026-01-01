@@ -1,22 +1,31 @@
-'use client';
-import { Bars } from 'react-loader-spinner';
+"use client";
+
+import { Bars } from "react-loader-spinner";
 
 interface LoadingSpinnerProps {
-    fullScreen?: boolean;
+  height?: string;
+  width?: string;
+  color?: string;
 }
 
-export default function LoadingSpinner({ fullScreen = true }: LoadingSpinnerProps) {
-    return (
-        <div className={`${fullScreen ? 'min-h-screen' : ''} flex flex-col items-center justify-center`}>
-            <Bars
-                height="80"
-                width="80"
-                color="#dc2626"
-                ariaLabel="bars-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-            />
-        </div>
-    );
-}
+const LoadingSpinner = ({
+  height = "80",
+  width = "80",
+  color = "#e10600", // F1 red color
+}: LoadingSpinnerProps) => {
+  return (
+    <div className="flex justify-center items-center min-h-[200px] w-full">
+      <Bars
+        height={height}
+        width={width}
+        color={color}
+        ariaLabel="bars-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+      />
+    </div>
+  );
+};
+
+export default LoadingSpinner;

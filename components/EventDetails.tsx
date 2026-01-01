@@ -2,8 +2,7 @@ import EventsCard from '@/components/EventsCard';
 import { EventAttrs } from '@/database/event.model';
 import { cacheLife } from 'next/cache';
 
-const BASE_URL =process.env.NEXT_PUBLIC_BASE_URL;
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 const EventDetails = async ({params} : {params: Promise<string>}) => {
     'use cache';
     cacheLife('hours');
