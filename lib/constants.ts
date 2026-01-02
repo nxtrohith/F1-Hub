@@ -10,43 +10,43 @@ export type EventItem = {
 export const teams = [
 	{
 		image: "/images/redbullracingcard.jpg", // Updated path
-		title: "RedBull Racing",
-		slug: "redbull-racing",
+		title: "Oracle Red Bull Racing",
+		slug: "oracle-red-bull-racing",
 	},
 	{
 		image: "/images/mercedescard.jpg", // Updated path
-		title: "Mercedes AMG",
-		slug: "mercedes-amg",
+		title: "Mercedes-AMG PETRONAS Formula One Team",
+		slug: "mercedes-amg-petronas-formula-one-team",
 	},
 	{
 		image: "/images/ferraricard.jpg", // Updated path
-		title: "Scuderia Ferrari",
-		slug: "scuderia-ferrari",
+		title: "Scuderia Ferrari HP",
+		slug: "scuderia-ferrari-hp",
 	},
 	{
 		image: "/images/mclarencard1.jpg", // Updated path
-		title: "McLaren F1 Team",
-		slug: "mclaren-f1-team",
+		title: "McLaren Formula 1 Team",
+		slug: "mclaren-formula-1-team",
 	},
 	{
 		image: "/images/alpinecard2.jpg", // Updated path
-		title: "Alpine F1 Team",
-		slug: "alpine-f1-team",
+		title: "BWT Alpine Formula One Team",
+		slug: "bwt-alpine-formula-one-team",
 	},
 	{
 		image: "/images/astoncard.jpg", // Updated path
-		title: "Aston Martin Cognizant",
-		slug: "aston-martin-cognizant",
+		title: "Aston Martin Aramco Formula One Team",
+		slug: "aston-martin-aramco-formula-one-team",
 	},
 	{
 		image: "/images/williamcard.jpg", // Updated path
-		title: "Williams Racing",
-		slug: "williams-racing",
+		title: "Atlassian Williams Racing",
+		slug: "atlassian-williams-racing",
 	},
 	{
 		image: "/images/hasscard.jpg", // Updated path
-		title: "Haas F1 Team",
-		slug: "haas-f1-team",
+		title: "MoneyGram Haas F1 Team",
+		slug: "moneygram-haas-f1-team",
 	},
 	{
 		image: "/images/audicard.jpg", // Updated path
@@ -55,8 +55,8 @@ export const teams = [
 	},
 	{
 		image: "/images/visarbcard.jpg", // Updated path
-		title: "Visa CashApp RB F1 Team",
-		slug: "visa-cashapp-rb-f1-team",
+		title: "Visa Cash App Racing Bulls Formula One Team",
+		slug: "visa-cash-app-racing-bulls-formula-one-team",
 	},
   {
 		image: "/images/caddilaccard.jpg", // Updated path
