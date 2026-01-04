@@ -1,6 +1,7 @@
 import { div } from "three/tsl";
 import { Bungee_Inline } from 'next/font/google';
 import Image from "next/image";
+import { getCloudinaryCarImage } from "@/lib/utils";
 const bungee = Bungee_Inline({
   weight: '400',
   subsets: ['latin'],
@@ -51,7 +52,7 @@ const DriverCard = ({driver1img, driver1, driver1cha, teamname}: {driver1img: st
 
     <p className="text-sm md:text-base text-neutral-300 max-w-xl">
       {`Current Team: ${teamname}`} <br />
-      {`Championships: ${driver1cha}`}
+      {`World Championship's: ${driver1cha}`}
     </p>
   </div>
 </div>
@@ -62,18 +63,65 @@ const DriverCard = ({driver1img, driver1, driver1cha, teamname}: {driver1img: st
 const TeamCard = ({ teamname, driver1, driver2, carmodel, carimage, firstentry, headquarters, teamlogo, driver1img, driver2img, chief, powerunit, championships, slug, driver1cha, driver2cha }: { teamname: string, driver1: string, driver2: string, carmodel: string, carimage: string, firstentry: string, headquarters: string, teamlogo: string, driver1img: string, driver2img: string, chief: string, powerunit: string, championships: string, slug: string, driver1cha: string, driver2cha: string }) => {
   return (
     <div>  
-      <h2 className={bungee.className + " text-4xl mb-4 flex items-center gap-4 underline"}>
-        <span><img src={teamlogo} alt={`${teamname} logo`} width={50} height={50} /></span>
-        {teamname}
-      </h2>
+      <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+        <h2 className={bungee.className + " text-2xl md:text-4xl flex items-center gap-3 md:gap-4 underline"}>
+          <span><img src={teamlogo} alt={`${teamname} logo`} width={40} height={40} className="w-8 h-8 md:w-[50px] md:h-[50px]" /></span>
+          {teamname}
+        </h2>
+        <div className="flex-shrink-0 w-full md:w-auto">
+          <img 
+            src={getCloudinaryCarImage(carimage, 400, 100)} 
+            alt={`${teamname} car`} 
+            className="w-[250px] md:w-[400px] h-auto object-contain"
+          />
+        </div>
+      </div>
     
 
-      <div>
-          <h2 className={"text-2xl my-4 " + bungee.className}>Drivers</h2>
-          <div className="drivers flex flex-col md:flex-row gap-8 mb-8">
+      <div className="flex flex-col md:flex-row gap-12">
+
+        <div className="flex-1">
+          <h2 className={"text-2xl md:text-3xl my-6 " + bungee.className}>Team Profile</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+            <div>
+              <p className="text-xs text-neutral-400 uppercase tracking-wider mb-1">Full Team Name</p>
+              <p className="text-lg md:text-xl font-bold text-white">{teamname}</p>
+            </div>
+            <div>
+              <p className="text-xs text-neutral-400 uppercase tracking-wider mb-1">Base</p>
+              <p className="text-lg md:text-xl font-bold text-white">{headquarters}</p>
+            </div>
+            <div>
+              <p className="text-xs text-neutral-400 uppercase tracking-wider mb-1">Team Chief</p>
+              <p className="text-lg md:text-xl font-bold text-white">{chief}</p>
+            </div>
+            <div>
+              <p className="text-xs text-neutral-400 uppercase tracking-wider mb-1">Chassis</p>
+              <p className="text-lg md:text-xl font-bold text-white">{carmodel}</p>
+            </div>
+            <div>
+              <p className="text-xs text-neutral-400 uppercase tracking-wider mb-1">Power Unit</p>
+              <p className="text-lg md:text-xl font-bold text-white">{powerunit}</p>
+            </div>
+            <div>
+              <p className="text-xs text-neutral-400 uppercase tracking-wider mb-1">Constructor's Championships</p>
+              <p className="text-lg md:text-xl font-bold text-white">{championships}</p>
+            </div>
+            <div>
+              <p className="text-xs text-neutral-400 uppercase tracking-wider mb-1">First Team Entry</p>
+              <p className="text-lg md:text-xl font-bold text-white">{firstentry}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1">
+          <h2 className={"text-2xl md:text-3xl my-6 " + bungee.className}>Drivers</h2>
+          <div className="drivers flex flex-col gap-8 mb-8">
             <DriverCard driver1img={driver1img} driver1={driver1} driver1cha={driver1cha} teamname={teamname}/>
             <DriverCard driver1img={driver2img} driver1={driver2} driver1cha={driver2cha} teamname={teamname} />
           </div>
+        </div>
+
       </div>
 
 
